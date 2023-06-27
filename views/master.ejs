@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>master data</title>
+    <style>
+        table, th, td {
+            border: solid 1px black;
+            padding: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <p><a href="/">return login window</a></p>
+    <table>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>pass</th>
+            <th>message</th>
+            <th>delete</th>
+        </tr>
+        <% info.forEach(function(value){ %>
+            <tr>
+                <td><%= value.id %></td>
+                <td><%= value.name %></td>
+                <td><%= value.pass %></td>
+                <td><%= value.message %></td>
+                <td><a href="/delete/<%= value.id %>">delete</a></td>
+            </tr>
+        <% }); %>
+    </table>
+    <h3>add info</h3>
+    <form action="/master/add" method="post">
+        name <input type="text" name="name"><br>
+        pass <input type="text" name="pass"><br>
+        message <input type="text" name="message"><br>
+        <button type="submit">send</button>
+    </form>
+</body>
+</html>

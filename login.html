@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chat app</title>
+    <style>
+        #login {
+            display: block;
+        }
+        #userID, #userPASS, #masterPASS, button {
+            margin: 5px;
+        }
+        #masterPASS {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <form id="login" action="/login" method="post">
+        <div><input id="userID" name="ID" placeholder="userNAME" /></div>
+        <div><input type="password" id="userPASS" name="PASS" autocomplete="off" placeholder="userPASS" /></div>
+        <div><button>Login</button></div>
+    </form>
+    <form action="/master" method="post">
+        <div><input type="password" id="masterPASS" name="MASTER" autocomplete="off" placeholder="masterKey" /></div>
+        <div><button>Manager</button></div>
+    </form>
+
+    <script>
+      
+    </script>
+</body>
+</html>
