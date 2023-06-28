@@ -12,7 +12,6 @@ const fetch = require('node-fetch');
 
 require('dotenv').config();
 
-
 const con = mysql.createConnection({
 	host: process.env.db_hostname,
 	user: process.env.db_username,
@@ -20,10 +19,6 @@ const con = mysql.createConnection({
 	database: process.env.db_database
 })
 
-con.connect(function(err) {
-	if (err) throw err;
-	console.log('mysql connected')
-})
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -35,6 +30,10 @@ app.get("/", (req, res) => {
 
 app.post("/login", (req, res) => {
 	const sql = 'select name from info where pass = ?';
+	con.connect(function(err) {
+		if (err) throw err;
+		console.log('mysql connected')
+	})
 	con.query(sql, req.body.PASS, (err, result, fields) => {
 		if (err) throw err;
 		//console.log(result[0].name)
@@ -49,6 +48,10 @@ app.post("/login", (req, res) => {
 io.on("connection", (socket) => {
 	//console.log("connected user");
 	const sql = 'select name from info'
+	con.connect(function(err) {
+		if (err) throw err;
+		console.log('mysql connected')
+	})
 	con.query(sql, (err, result, fields) => {
 		if (err) throw err;
 		//console.log(result)
@@ -63,6 +66,10 @@ io.on("connection", (socket) => {
 app.post('/master', (req, res) => {
 	if (req.body.MASTER == process.env.master_key) {
 		const sql = 'create table if not exists info(id integer primary key auto_increment, name text, pass text, message text)'
+		con.connect(function(err) {
+			if (err) throw err;
+			console.log('mysql connected')
+		})	
 		con.query(sql, (err, result, fields) => {
 			if (err) throw err;
 		})
@@ -88,6 +95,10 @@ app.get('/create', (req, res) => {
 
 app.get('/master', (req, res) => {
 	const sql = 'select * from info'
+	con.connect(function(err) {
+		if (err) throw err;
+		console.log('mysql connected')
+	})
 	con.query(sql, (err, result, fields) => {
 		if (err) throw err;
 		res.render('master', {info : result})
@@ -96,6 +107,10 @@ app.get('/master', (req, res) => {
 
 app.post('/master/add', (req, res) => {
 	const sql = `select pass from info where pass = '${req.body.pass}'`;
+	con.connect(function(err) {
+		if (err) throw err;
+		console.log('mysql connected')
+	})
 	con.query(sql, (err, result, fields) => {
 		//console.log(result)
 		if (err) throw err;
@@ -138,6 +153,10 @@ app.post('/master/add', (req, res) => {
 
 app.get('/delete/:id', (req, res) => {
     const sql = "DELETE FROM info WHERE id = ?";
+	con.connect(function(err) {
+		if (err) throw err;
+		console.log('mysql connected')
+	})
     con.query(sql, [req.params.id], (err, result, fields) => {
         if (err) throw err;
         //console.log(result);
