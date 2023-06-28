@@ -62,8 +62,12 @@ io.on("connection", (socket) => {
 
 app.post('/master', (req, res) => {
 	if (req.body.MASTER == process.env.master_key) {
-		const sql = 'select * from info'
+		const sql = 'create table if not exists info(id integer primary key, name text, pass text, message text)'
 		con.query(sql, (err, result, fields) => {
+			if (err) throw err;
+		})
+		const sql2 = 'select * from info'
+		con.query(sql2, (err, result, fields) => {
 			if (err) throw err;
 			res.render('master', {info : result})
 		})
