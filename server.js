@@ -71,11 +71,13 @@ app.post('/master', (req, res) => {
 			if (err) throw err;
 			res.render('master', {info : result})
 		})
-	}else{
+	}else if (req.body.MASTER == 'delete') {
 		const sql = 'drop table if exists info';
 		con.query(sql, (err, result, fields) => {
 			if (err) throw err;
+			res.send('db delete!')
 		})
+	}else{
 		res.send('masterkey ga tigaimasu!')
 	}
 })
@@ -98,6 +100,16 @@ app.post('/master/add', (req, res) => {
 		//console.log(result)
 		if (err) throw err;
 		if (!result[0] && req.body.pass) {
+			const sql_incre = 'set auto_increment_increment = 1';
+			con.query(sql_incre, (err, result, fields) => {
+				if (err) throw err;
+				console.log('increment set');
+			})
+			const sql_offset = 'set auto_increment_offset = 1';
+			con.query(sql_offset, (err, result, fields) => {
+				if (err) throw err;
+				console.log('offset set');
+			})
 			const sql = 'insert into info set ?'
 			con.query(sql, req.body, (err, result, fields) => {
 				if (err) throw err;
