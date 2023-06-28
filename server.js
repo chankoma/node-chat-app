@@ -62,7 +62,7 @@ io.on("connection", (socket) => {
 
 app.post('/master', (req, res) => {
 	if (req.body.MASTER == process.env.master_key) {
-		const sql = 'create table if not exists info(id integer primary key, name text, pass text, message text)'
+		const sql = 'create table if not exists info(id integer primary key auto_increment, name text, pass text, message text)'
 		con.query(sql, (err, result, fields) => {
 			if (err) throw err;
 		})
