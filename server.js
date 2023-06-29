@@ -81,17 +81,7 @@ app.post('/master', (req, res) => {
 	}
 })
 
-app.get('/create', (req, res) => {
-	res.sendFile(__dirname + '/masta/form.html')
-})
 
-app.get('/master', (req, res) => {
-	const sql = 'select * from info'
-	con.query(sql, (err, result, fields) => {
-		if (err) throw err;
-		res.render('master', {info : result})
-	})
-})
 
 app.post('/master/add', (req, res) => {
 	const sql = `select pass from info where pass = '${req.body.pass}'`;
@@ -102,12 +92,10 @@ app.post('/master/add', (req, res) => {
 			const sql_incre = 'set auto_increment_increment = 1';
 			con.query(sql_incre, (err, result, fields) => {
 				if (err) throw err;
-				console.log('increment set');
 			})
 			const sql_offset = 'set auto_increment_offset = 1';
 			con.query(sql_offset, (err, result, fields) => {
 				if (err) throw err;
-				console.log('offset set');
 			})
 			const sql = 'insert into info set ?'
 			con.query(sql, req.body, (err, result, fields) => {
@@ -120,11 +108,15 @@ app.post('/master/add', (req, res) => {
 						return res.json();
 					})
 					.then(poke => {
-						console.log(poke.name)
+						//console.log(poke.name)
 						const sql = `update info set name = '${poke.name}' where id = ${result[0].id}`;
 						con.query(sql, (err, result, fields) => {
 							if (err) throw err;
-							res.redirect('/master')
+							const sql = 'select * from info'
+							con.query(sql, (err, result, fields) => {
+								if (err) throw err;
+								res.render('master', {info: result})
+							})
 						})
 					})
 				});	
@@ -140,7 +132,11 @@ app.get('/delete/:id', (req, res) => {
 	con.query(sql, [req.params.id], (err, result, fields) => {
         if (err) throw err;
         //console.log(result);
-        res.redirect('/master');
+        const sql = 'select * from info'
+		con.query(sql, (err, result, fields) => {
+			if (err) throw err;
+			res.render('master', {info: result})
+		})
     });
 });
 
